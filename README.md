@@ -4,4 +4,5 @@ This repository contains the resources needed for the workshop.  The directories
 
 * `doc`: Markdown source code for the course guides
 * `images`: Sample images for de-identification
+* `pdf`: Course guides in PDF format
 * `python`: Jupyter notebook for module 1, Python source code for module 2
