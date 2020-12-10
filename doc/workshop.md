@@ -12,5 +12,9 @@ With both solutions we’ll enforce security by setting up some necessary permis
 
 ## Course Resources
 
-* Download and extract this [zip file](https://github.com/crabba/medical-image-deident/archive/main.zip) (which contains the contents of this [GitHub Repo](https://github.com/crabba/medical-image-deident)) to your local computer.
+* Download and extract this [zip file](https://github.com/crabba/medical-image-deident/archive/main.zip) (which contains the contents of this [GitHub Repo](https://github.com/crabba/medical-image-deident)) to your local computer.  The extracted directories contain:
+    * `doc`: Markdown source code for the course guides
+    * `images`: Sample images for de-identification
+    * `pdf`: Course guides in PDF format
+    * `python`: Jupyter notebook for module 1, Python source code for module 2
 
