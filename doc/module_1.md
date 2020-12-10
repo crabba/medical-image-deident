@@ -18,11 +18,11 @@
     * **Review** page: Select Acknowledge box
 * From the **Outputs** of the stack, make note of the **ImageBucketName**
 
-### Step 2: Upload the sample image file
+### Step 2: Upload the sample image files
 
-* Download the sample image file `deidentify-medical-2.jpg` from [this GitHub link](https://github.com/aws-samples/amazon-comprehend-medical-image-deidentification/blob/master/images/deidentify-medical-2.jpg) by right-clicking on **Download** and saving to your local machine
-* Open the S3 service console, and click on the bucket created in Step 1.
-* Upload into this bucket the sample image file from above
+* Locate the downloaded course resources on your local machine
+* Open the S3 service console, and click on the bucket created in Step 1
+* Upload into this bucket the sample image files from the `images` directory of the course resources
 
 ### Step 3: Create a SageMaker instance
 
@@ -51,9 +51,7 @@
 ### Step 5: Install the Jupyter notebook
 
 * In the Notebook Instances tab, once the notebook instance is running, click on its name and click on **Open Jupyter** to open Jupyter in a new tab.
-* Open another browser tab, open [this GitHub link](https://github.com/aws-samples/amazon-comprehend-medical-image-deidentification/blob/master/medical_image_de_id.ipynb),  right-click on **Download**, and save the file `medical_image_de_id.ipynb` to your local machine.
-* Return to the Jupyter tab, upload the Jupyter notebook file
-* Click **Upload**, locate and upload the notebook file
+* In the Jupyter tab, upload the Jupyter notebook file `medical_image_de_id.ipynb` from the `python` directory of the course resources
 * Click on the notebook file to run the notebook in a new tab
 
 ### Step 6: Edit and run the Jupyter notebook
