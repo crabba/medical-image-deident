@@ -59,4 +59,4 @@
 * In the Jupyter notebook tab, edit the code cell with the **bucket** and **object** (path and name) of the image file in your bucket from Step 2
 * Run the notebook by selecting **Cell** → **Run All** in the top menu bar
 * The first time you run this, some software will be installed
-* Experiment by adjusting the **phi_detection_threshold** to a value closer to 1.00 
+* Experiment by adjusting the **phi_detection_threshold** to values between 0.00 (more redaction) and 1.00 (less redaction)

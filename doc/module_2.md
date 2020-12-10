@@ -11,6 +11,7 @@
 ### Step 1: Launch CloudFormation Stack
 
 * Ensure you have launched the CloudFormation stack as described in Module 1, Step 1.
+* From the CloudFormation console, open the **Outputs** tab of your stack and note the value of **ApiGatewayId**
 
 ### Step 2: Create an IAM Policy
 
@@ -64,7 +65,7 @@
 
 #### Text Masking
 
-* Use the code below, entering the values from the CloudFormation outputs:
+* Use the code below, entering the values from the CloudFormation outputs.  This script is also in the course resources in `python/api_textmask.py`
     * `api_id` : **ApiGatewayId**
     * `resource_id` : **TextMaskResourceId**
 
@@ -72,12 +73,17 @@
 import boto3
 import json
 
+# Calls POST on /text/mask and invokes Lambda function `mask_text/lambda_function.py`
+
 client = boto3.client('apigateway')
 
 api_id = 'YOUR_API_ID'
-resource_id = 'YOUR_RESOURCE_ID'
+resource_id = 'YOUR_TEXTMASKRESOURCEID'
 
-payload = {"text": "PERSON INFORMATION\nName: SALAZAR, CARLOS\nMRN: RQ36114734\nED Arrival Time: 11/12/2011 18:15\nSex: Male\nDOB: 2/11/1961"}
+payload = {
+    "text": "PERSON INFORMATION\nName: SALAZAR, CARLOS\nMRN: RQ36114734\nED Arrival Time: 11/12/2011 18:15\nSex: Male\nDOB: 2/11/1961",
+    "phiDetectionThreshold": 0.9
+    }
 response = client.test_invoke_method(
     restApiId=api_id,
     resourceId=resource_id,
@@ -90,10 +96,15 @@ print(response['body'])
 
 * Save the file with a `.py` extension
 * Run the code: `python <yourfile.py>`
+* Notes:
+  * This calls the **POST** method on `/text/mask` resource, which invokes the Lambda method in `/mask_text/`
+  * Lambda invocations are logged in CloudWatch Logs **/aws/lambda/\<stack-name\>-\<lambda-name\>**
+  * Lambda logging can be configured with the environment variable **LOG_LEVEL** in the Lambda console (INFO, ERROR etc)
+  * API Gateway logging may be configured in **Stages** -> **Logs/Tracing**
 
 #### Image Masking
 
-* Use the code below, entering the values from the CloudFormation outputs:
+* Use the code below, entering the values from the CloudFormation outputs.  This script is also in the course resources in `python/api_imagemask.py`
     * `api_id` : **ApiGatewayId**
     * `resource_id` : **ImageMaskResourceId**
     * `s3_bucket`: Bucket containing your image
@@ -103,15 +114,23 @@ print(response['body'])
 import boto3
 import json
 
+# Calls POST on /image/mask
+
 client = boto3.client('apigateway') 
 
-api_id = YOUR_API_ID
-resource_id = YOUR_RESOURCE_ID 
-s3_bucket = YOUR_S3_IMAGE_BUCKET 
-s3_key = YOUR_S3_IMAGE_KEY
+api_id = 'YOUR_API_ID'
+resource_id = 'YOUR_IMAGEMASKRESOURCEID'
+s3_bucket = 'YOUR_S3_IMAGE_BUCKET' 
+s3_key = 'YOUR_S3_IMAGE_KEY'
 
 destination_key = 'masked/' + s3_key
-payload = {"s3Bucket": s3_bucket, "s3Key": s3_key, "destinationBucket": s3_bucket, "destinationKey": destination_key}
+payload = {
+    "phiDetectionThreshold": 0.5,
+    "s3Bucket": s3_bucket,
+    "s3Key": s3_key,
+    "destinationBucket": s3_bucket,
+    "destinationKey": destination_key
+    }
 response = client.test_invoke_method( 
     restApiId=api_id,
     resourceId=resource_id,
