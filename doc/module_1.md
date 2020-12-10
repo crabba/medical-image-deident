@@ -48,9 +48,9 @@
     * **ComprehendMedicalFullAccess**
 * Click **Attach policy** and confirm that you now have 4 policies attached to this role
 
-### Step 5: Install the Jupyter notebook
+### Step 5: Install the Jupyter notebook in the SageMaker instance
 
-* In the Notebook Instances tab, once the notebook instance is running, click on its name and click on **Open Jupyter** to open Jupyter in a new tab.
+* In the SageMaker -> Notebook Instances tab, once the notebook instance is running, click on its name and click on **Open Jupyter** to open Jupyter in a new tab.
 * In the Jupyter tab, upload the Jupyter notebook file `medical_image_de_id.ipynb` from the `python` directory of the course resources
 * Click on the notebook file to run the notebook in a new tab
 

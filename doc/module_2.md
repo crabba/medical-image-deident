@@ -56,7 +56,7 @@
 ### Step 4: Test the API
 
 * Reference: [Implementation Guide](https://s3.amazonaws.com/solutions-reference/ai-powered-health-data-masking/latest/ai-powered-health-data-masking.pdf), Appendix B
-* Return to the SageMaker instance from Solution 1
+* Return to the Jupyter notebook of the SageMaker instance from Solution 1
 * Select **New** → **Terminal**
 * Run `bash` and `cd` to the `SageMaker` directory
 * Create a new Python script in this directory in one of two ways:
