@@ -12,9 +12,12 @@ With both solutions we’ll enforce security by setting up some necessary permis
 
 ## Course Resources
 
-* Download and extract this [zip file](https://github.com/crabba/medical-image-deident/archive/main.zip) (which contains the contents of this [GitHub Repo](https://github.com/crabba/medical-image-deident)) to your local computer.  The extracted directories contain:
-    * `doc`: Markdown source code for the course guides
-    * `images`: Sample images for de-identification
-    * `pdf`: Course guides in PDF format
-    * `python`: Jupyter notebook for module 1, Python source code for module 2
+Download this [zip file](https://github.com/crabba/medical-image-deident/archive/main.zip), and extract it to your local computer.  We'll use files from this directory at several points during the workshop. It contains the contents of this [GitHub Repo](https://github.com/crabba/medical-image-deident).  The extracted directories contain:
 
+* `doc`: Markdown source code for the course guides
+* `iam`: Text file with the IAM policy for module 2
+* `images`: Sample images for de-identification
+* `pdf`: Course guides in PDF format
+* `python`: Jupyter notebook for module 1, Python source code for module 2
+
+Open `module_1.pdf` and `module_2.pdf` from the `pdf` directory, and keep them open for reference during the workshop.
