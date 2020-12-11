@@ -18,7 +18,7 @@
 * Reference: [Implementation Guide](https://s3.amazonaws.com/solutions-reference/ai-powered-health-data-masking/latest/ai-powered-health-data-masking.pdf), Step 2
 * Open the AWS IAM console 
 * Select **Policies** then **Create Policy**
-* Select the **JSON** tab and replace the policy contents with the text copied from below
+* Select the **JSON** tab and replace the policy contents with the text copied from below.  Note, if you are having formatting problems with copy/paste, this text is in the file `iam/api-policy.txt` in the downloaded course materials.
     * Replace `ACCOUNTID` with your 12-digit account ID
     * Replace `APIGATEWAYID` with the API Gateway ID from above
     * Optionally, replace **us-east-1** with your current region, and prod with your staging environment name, if modified
@@ -45,7 +45,7 @@
 ```
 
 * Click **Review Policy**
-* Give your policy a memorable name then click **Create policy**
+* Give your policy a memorable name such as **workshop-api-policy** then click **Create policy**
 
 ### Step 3: Attach the policy to the SageMaker role
 
@@ -57,88 +57,36 @@
 
 * Reference: [Implementation Guide](https://s3.amazonaws.com/solutions-reference/ai-powered-health-data-masking/latest/ai-powered-health-data-masking.pdf), Appendix B
 * Return to the Jupyter notebook of the SageMaker instance from Solution 1
-* Select **New** → **Terminal**
-* Run `bash` and `cd` to the `SageMaker` directory
-* Create a new Python script in this directory in one of two ways:
-    * Use **vi** or **emacs** to create the file in the terminal window
-    * From the **Jupyter** page, Select **new** → **Text File**
+* Ensure you have uploaded the files `api_imagemask.py` and `api_textmask.py` as described in Module 1, Step 5.
+* We will be editing these files; either select the file in Jupyter and click 'Edit', or else use **vi** or **emacs** in a terminal window
+* Open a new Terminal by selecting **New** → **Terminal**
+* In the terminal, run **bash**, and **cd** to the `SageMaker` directory
 
 #### Text Masking
 
-* Use the code below, entering the values from the CloudFormation outputs.  This script is also in the course resources in `python/api_textmask.py`
+* Edit the file `api_textmask.py`, entering the values from the CloudFormation outputs:
     * `api_id` : **ApiGatewayId**
     * `resource_id` : **TextMaskResourceId**
-
-```
-import boto3
-import json
-
-# Calls POST on /text/mask and invokes Lambda function `mask_text/lambda_function.py`
-
-client = boto3.client('apigateway')
-
-api_id = 'YOUR_API_ID'
-resource_id = 'YOUR_TEXTMASKRESOURCEID'
-
-payload = {
-    "text": "PERSON INFORMATION\nName: SALAZAR, CARLOS\nMRN: RQ36114734\nED Arrival Time: 11/12/2011 18:15\nSex: Male\nDOB: 2/11/1961",
-    "phiDetectionThreshold": 0.9
-    }
-response = client.test_invoke_method(
-    restApiId=api_id,
-    resourceId=resource_id,
-    httpMethod='POST',
-    headers={"Content-Type": "application/json"},
-    body=json.dumps(payload))
-
-print(response['body'])
-```
-
-* Save the file with a `.py` extension
-* Run the code: `python <yourfile.py>`
+* In the Terminal tab, run the code: `python api_textmask.py`
 * Notes:
-  * This calls the **POST** method on `/text/mask` resource, which invokes the Lambda method in `/mask_text/`
-  * Lambda invocations are logged in CloudWatch Logs **/aws/lambda/\<stack-name\>-\<lambda-name\>**
+  * Try adjusting the value of **phiDetectionThreshold**
+  * This calls the **POST** method on the `/text/mask` resource, which invokes the Lambda method in `/mask_text/lambda_function.py`
+  * Lambda invocations are logged in CloudWatch Logs log group **/aws/lambda/\<stack-name\>-\<lambda-name\>**
   * Lambda logging can be configured with the environment variable **LOG_LEVEL** in the Lambda console (INFO, ERROR etc)
-  * API Gateway logging may be configured in **Stages** -> **Logs/Tracing**
+  * API Gateway logging may be configured in **Stages** → **Logs/Tracing**
 
 #### Image Masking
 
-* Use the code below, entering the values from the CloudFormation outputs.  This script is also in the course resources in `python/api_imagemask.py`
+* Edit the file `api_imagemask.py`, entering the values from the CloudFormation outputs:
     * `api_id` : **ApiGatewayId**
     * `resource_id` : **ImageMaskResourceId**
     * `s3_bucket`: Bucket containing your image
     * `s3_key`: Name of image file
-
-```
-import boto3
-import json
-
-# Calls POST on /image/mask
-
-client = boto3.client('apigateway') 
-
-api_id = 'YOUR_API_ID'
-resource_id = 'YOUR_IMAGEMASKRESOURCEID'
-s3_bucket = 'YOUR_S3_IMAGE_BUCKET' 
-s3_key = 'YOUR_S3_IMAGE_KEY'
-
-destination_key = 'masked/' + s3_key
-payload = {
-    "phiDetectionThreshold": 0.5,
-    "s3Bucket": s3_bucket,
-    "s3Key": s3_key,
-    "destinationBucket": s3_bucket,
-    "destinationKey": destination_key
-    }
-response = client.test_invoke_method( 
-    restApiId=api_id,
-    resourceId=resource_id,
-    httpMethod='POST',
-    headers={"Content-Type": "application/json"}, 
-    body=json.dumps(payload)
-)
-
-print(response['body'])
-```
+* In the Terminal tab, run the code: `python api_imagemask.py`
+* The script will return the S3 URL of the masked image file, which you can download:
+  * From the S3 console
+  * From your local command line: `aws s3 cp s3://YOUR-IMAGE-BUCKET/masked/chest.jpg .`
+* Notes:
+  * Try adjusting the value of **phiDetectionThreshold**
+  * This calls the **POST** method on the `/image/mask` resource, which invokes the Lambda method in `/mask_image/lambda_function.py`
 
